@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mines - Jogo</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #00ffae;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            gap: 5px;
+        }
+
+        .cell {
+            background-color: #1a1a1a;
+            border: 2px solid #00ffae;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mine {
+            background-color: #ff0057;
+        }
+
+        .safe {
+            background-color: #00ffae;
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            background-color: #1a1a1a;
+            color: white;
+            border: 2px solid #00ffae;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        select:focus, button:hover {
+            background-color: #00ffae;
+            color: #0a0a0a;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 255, 174, 0.7);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .navbar a i {
+            font-size: 24px;
+            color: #00ffae;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover i {
+            color: #ff0057;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Jogo Mines</h1>
+
+    <!-- Grade de Mines -->
+    <div class="grid" id="mine-grid">
+        <!-- Células geradas por JavaScript -->
+    </div>
+
+    <!-- Controles para escolha de minas e revelação -->
+    <div class="controls">
+        <label for="mines">Escolha o número de minas:</label>
+        <select id="mines" name="mines">
+            <option value="1">1 mina</option>
+            <option value="2">2 minas</option>
+            <option value="3">3 minas</option>
+            <option value="4">4 minas</option>
+            <option value="5">5 minas</option>
+            <option value="6">6 minas</option>
+            <option value="7">7 minas</option>
+            <option value="8">8 minas</option>
+            <option value="9">9 minas</option>
+            <option value="10">10 minas</option>
+            <option value="11">11 minas</option>
+            <option value="12">12 minas</option>
+            <option value="13">13 minas</option>
+            <option value="14">14 minas</option>
+            <option value="15">15 minas</option>
+            <option value="16">16 minas</option>
+            <option value="17">17 minas</option>
+            <option value="18">18 minas</option>
+            <option value="19">19 minas</option>
+            <option value="20">20 minas</option>
+        </select>
+        <button onclick="generateMines()">Gerar Minas</button>
+        <button onclick="revealMines()">Revelar Minas</button>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="C:\Users\mateu\Documents\Projetos Teste 1\index.html">
+            <i class='bx bx-home'></i>
+            <span>Início</span>
+        </a>
+        <a href="C:\Users\mateu\Documents\Projetos Teste 1\index.html">
+            <i class='bx bx-bomb'></i>
+            <span>Mines</span>
+        </a>
+        <a href="#">
+            <i class='bx bx-user'></i>
+            <span>Vip</span>
+        </a>
+    </div>
+
+    <script>
+        const grid = document.getElementById('mine-grid');
+        const cells = [];
+        const gridSize = 25;
+
+        // Cria a grade de 5x5
+        for (let i = 0; i < gridSize; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            grid.appendChild(cell);
+            cells.push(cell);
+        }
+
+        // Gera minas aleatórias com base na seleção do usuário
+        function generateMines() {
+            const numMines = parseInt(document.getElementById('mines').value);
+            cells.forEach(cell => {
+                cell.classList.remove('mine', 'safe');
+                cell.textContent = ''; // Limpa qualquer símbolo
+            });
+
+            let minesGenerated = 0;
+            while (minesGenerated < numMines) {
+                const randomIndex = Math.floor(Math.random() * gridSize);
+                if (!cells[randomIndex].classList.contains('mine')) {
+                    cells[randomIndex].classList.add('mine');
+                    minesGenerated++;
+                }
+            }
+        }
+
+        // Revela a posição das minas e locais seguros
+        function revealMines() {
+            cells.forEach(cell => {
+                if (cell.classList.contains('mine')) {
+                    cell.textContent = '💣'; // Emoji de bomba
+                } else {
+                    cell.textContent = '⭐'; // Emoji de local seguro
+                    cell.classList.add('safe');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

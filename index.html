@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos de Cassino</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> <!-- Boxicons -->
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00ffae;
+            margin-bottom: 1px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .game-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 255, 174, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 174, 0.9);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-bottom: 3px solid #00ffae;
+        }
+
+        .game-info {
+            padding: 10px;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 1px;
+        }
+
+        .game-info h2 {
+            margin: 0;
+            font-size: 1em;
+            color: #00ffae;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #333;
+            border-radius: 5px;
+            margin: 10px 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #ff0057;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+
+        .game-card:hover .progress {
+            width: 80%;
+        }
+
+        .percentage {
+            font-size: 0.8em;
+            color: #00ffae;
+            text-align: center;
+            margin-top: 5px;
+            margin-top: 1px;
+        }
+
+        h3 {
+            color: #00ffae;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Slide de texto */
+        .slide-container {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .slide-text {
+            color: #00ffae;
+            white-space: nowrap;
+            display: inline-block;
+            padding-left: 100%;
+            animation: slide 30s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Estilo aprimorado do quadrado com neon */
+        .neon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            margin-right: 30px;
+            border: 2px solid #00ffae;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 174, 0.7), 0 0 20px rgba(0, 255, 174, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .neon-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 174, 0.9), 0 0 30px rgba(0, 255, 174, 0.8);
+        }
+
+        .pix-icon {
+            vertical-align: middle;
+            width: 25px;
+            margin-right: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 174, 0.7);
+        }
+
+        /* Barra de navegação */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Transparente */
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 255, 174, 0.7);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .navbar a i {
+            font-size: 24px;
+            color: #00ffae;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover i {
+            color: #ff0057;
+        }
+    </style>
+</head>
+<body>
+
+    
+
+    <h3>Descubra quais jogos estão mais fácil de ganhar !!</h3>
+
+    <!-- Slide de texto com quadrados neon -->
+    <div class="slide-container">
+        <div class="slide-text">
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Patricia sacou via pix R$ 98.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                João sacou via pix R$ 120.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Maria sacou via pix R$ 55.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Pedro sacou via pix R$ 675.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Caio sacou via pix R$ 578.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Junior sacou via pix R$ 96.00
+            </div>
+            <div class="neon-box">
+                <img src="Fotos/logo-pix-icone-512.png" alt="Pix" class="pix-icon">
+                Caio sacou via pix R$ 87.00
+            </div>
+        </div>
+    </div>
+
+    <div class="games-container">
+        <!-- Jogo 1 -->
+        <div class="game-card">
+            <img src="Fotos/01J6AGMG95KVPDVAP77X3QFPQ6.gif" alt="Slots">
+            <div class="game-info">
+                <h2>Tigrinho</h2>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 65%;"></div> <!-- Porcentagem de ganho -->
+            </div>
+            <div class="percentage">65%</div>
+        </div>
+
+        <!-- Jogo 2 -->
+        <div class="game-card">
+            <img src="Fotos/01J6AGS9Q1Z83YD1E0P6SEHPSY.gif" alt="Roleta">
+            <div class="game-info">
+                <h2>Dragão</h2>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 73%;"></div> <!-- Porcentagem de ganho -->
+            </div>
+            <div class="percentage">73%</div>
+        </div>
+
+        <!-- Jogo 3 -->
+        <div class="game-card">
+            <img src="Fotos/01J74KEQGQP0X43QA37YZ4XTSW.gif" alt="Blackjack">
+            <div class="game-info">
+                <h2>Rabbit</h2>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 91%;"></div> <!-- Porcentagem de ganho -->
+            </div>
+            <div class="percentage">91%</div>
+        </div>
+
+        <!-- Jogo 4 -->
+        <div class="game-card">
+            <img src="Fotos/01J6AGTYKXB301JSZPAE60B3XT.gif" alt="Poker">
+            <div class="game-info">
+                <h2>Tourinho</h2>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 78%;"></div> <!-- Porcentagem de ganho -->
+            </div>
+            <div class="percentage">78%</div>
+        </div>
+
+            <!-- Jogo 4 -->
+            <div class="game-card">
+                <img src="Fotos/01J6AGVEYGGCS3TAEHQEWCRVW1.gif" alt="Poker">
+                <div class="game-info">
+                    <h2>Zeus</h2>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 78%;"></div> <!-- Porcentagem de ganho -->
+                </div>
+                <div class="percentage">78%</div>
+            </div>
+
+            <!-- Jogo 4 -->
+            <div class="game-card">
+                <img src="Fotos/01J7478YCSQFSKW7G0VPM84F9S.gif" alt="Poker">
+                <div class="game-info">
+                    <h2>Aviator</h2>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 78%;"></div> <!-- Porcentagem de ganho -->
+                </div>
+                <div class="percentage">78%</div>
+            </div>
+        </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#">
+            <i class='bx bx-home'></i>
+            <span>Início</span>
+        </a>
+        <a href="C:\Users\mateu\Documents\Projetos Teste 1\mines.html">
+            <i class='bx bx-bomb'></i>
+            <span>Mines</span>
+        </a>
+        <a href="#">
+            <i class='bx bx-user'></i>
+            <span>Vip</span>
+        </a>
+    </div>
+
+</body>
+</html>
